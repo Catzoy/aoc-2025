@@ -1,7 +1,9 @@
 package d01
 
-@JvmInline
-value class Dial(val value: Int = 50)
+data class Dial(
+    val value: Int = 50,
+    val clicks: Int = 0
+)
 
 sealed interface Rotation {
     fun rotate(dial: Dial): Dial
@@ -9,20 +11,22 @@ sealed interface Rotation {
     class Left(val steps: Int) : Rotation {
         override fun rotate(dial: Dial): Dial {
             var next = dial.value - steps
+            val clicks = ((dial.value - 1) downTo next).count { it % 100 == 0 }
             while (next < 0) {
                 next += 100
             }
-            return Dial(next)
+            return Dial(next, dial.clicks + clicks)
         }
     }
 
     class Right(val steps: Int) : Rotation {
         override fun rotate(dial: Dial): Dial {
             var next = dial.value + steps
+            val clicks = ((dial.value + 1)..next).count { it % 100 == 0 }
             while (next > 99) {
                 next -= 100
             }
-            return Dial(next)
+            return Dial(next, dial.clicks + clicks)
         }
     }
 
