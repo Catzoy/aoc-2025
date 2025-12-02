@@ -20,3 +20,16 @@ fun String.isInvalidID(): Boolean {
     val half = take(length / 2)
     return this == half.repeat(2)
 }
+
+fun String.isExtremelyInvalidID(): Boolean {
+    val half = take(length / 2)
+    for (i in half.indices) {
+        val substring = half.take(i + 1)
+        val repetitions = length / substring.length
+        if (this == substring.repeat(repetitions)) {
+            return true
+        }
+    }
+
+    return false
+}
