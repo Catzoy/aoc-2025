@@ -35,3 +35,15 @@ fun countFree(matrix: MutableList<CharArray>): Int {
     }
     return count
 }
+
+fun noteFree(matrix: MutableList<CharArray>): List<Pair<Int, Int>> {
+    val free = mutableListOf<Pair<Int, Int>>()
+    for (i in matrix.indices) {
+        for (j in matrix[0].indices) {
+            if (matrix.isFreeRollAt(j, i)) {
+                free.add(j to i)
+            }
+        }
+    }
+    return free
+}
